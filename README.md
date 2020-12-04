@@ -15,3 +15,6 @@ Include these things:
 - what you might have done differently if you were to spend additional time on this solution
 
 Start here 👉 [Coding Challenge Guidelines](coding_challenge.md)
+
+TODO:
+- https://reedbarger.com/how-to-create-a-usewindowsize-react-hook/
