@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import useWindowSize from "../hooks/useWindowSize";
 import { ANNOTATION_WIDTH, ANNOTATION_HEIGHT } from "../consts/Theme";
 
 const TOOLTIP_WIDTH = 200;
@@ -35,12 +36,11 @@ const DeleteButton = styled.span`
   z-index: 1;
   font-size: 8px;
   cursor: pointer;
+  user-select: none;
 `;
 
-// limitiation: needs reload won't work on resize
-const { innerWidth, innerHeight } = window;
-
 const Tooltip = ({ annotation, onChange, onMouseLeave, onDelete }) => {
+  const [innerWidth, innerHeight] = useWindowSize();
   const [x, y, text] = annotation;
 
   const nearBottomScreenEnd = y - innerHeight + 75;
@@ -54,7 +54,12 @@ const Tooltip = ({ annotation, onChange, onMouseLeave, onDelete }) => {
         aria-label="close"
         top={y + 3}
         left={x + 5}
-        onClick={onDelete}
+        onContextMenu={(e) => {
+          e.preventDefault();
+          // right click is not ideal UX with the icon, but left click breaks mobile
+          onDelete();
+        }}
+        title="right click (or long press on tablet devices) to remove"
       >
         ❌
       </DeleteButton>
