@@ -19,7 +19,7 @@ I went with the template as it was, SVG was a clear choice, d3-delaunay seemed n
 There weren't many, d3js was clear choice for SVG manipulation, Jest is my go to test runner.
 
 - trade-offs you might have made or anything you left out
-TODO
+No types, mainly at least prop types
 
 - describe what you did differently (if anything)
 - what you might have done differently if you were to spend additional time on this solution
