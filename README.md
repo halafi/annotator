@@ -23,5 +23,6 @@ No types, mainly at least prop types
 
 - describe what you did differently (if anything)
 - what you might have done differently if you were to spend additional time on this solution
+
 I would consider component tests using `react testing library`, figure out what behaviour we want on touch devices and maybe make that work better.
 I would have started from `npx create-react-app my-app --template typescript` to have up to date dependencies and types, or from my own starter https://github.com/halafi/quickact
