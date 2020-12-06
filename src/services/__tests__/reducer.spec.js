@@ -1,4 +1,5 @@
 import reducer, {
+  addAnnotation,
   setAnnotations,
   setHoveredIndex,
   removeAnnotation,
@@ -20,6 +21,28 @@ describe("#reducer", () => {
       annotations,
       hoveredIndex: -1,
     });
+  });
+
+  test("addAnnotation", () => {
+    const initialState = {
+      annotations: [],
+      hoveredIndex: -1,
+    };
+    const nextState = reducer(initialState, addAnnotation([10, 10, "hi"]));
+    expect(nextState).toEqual({
+      annotations: [[10, 10, "hi"]],
+      hoveredIndex: 0,
+    });
+    const finalState = {
+      annotations: [
+        [10, 10, "hi"],
+        [20, 10, "hi again"],
+      ],
+      hoveredIndex: 1,
+    };
+    expect(reducer(nextState, addAnnotation([20, 10, "hi again"]))).toEqual(
+      finalState
+    );
   });
 
   test("setHoveredIndex", () => {
