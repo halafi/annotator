@@ -10,8 +10,8 @@ const Container = styled.textarea`
     upperHalfOfScreen ? "bottom: 10px" : "top: 10px"};
   left: 50%;
   transform: translateX(-50%);
-  background-color: #d7d7d7;
-  border: 1px solid #d8d8d8;
+  background-color: ${({ theme }) => theme["gray-300"]};
+  border: ${({ theme }) => `1px solid ${theme["gray-200"]}`};
   width: ${TOOLTIP_WIDTH}px;
   padding: 12px;
   border-radius: 4px;

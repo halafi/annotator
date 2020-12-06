@@ -11,12 +11,13 @@ import reducer, {
 const Container = styled.svg`
   width: 100vw;
   height: 100vh;
-  background: #f9f9f9;
+  background: ${({ theme }) => theme["gray-100"]};
 `;
 
 const AnnotationRect = styled.rect`
-  fill: #d8d8d8;
-  stroke: ${({ isHovered }) => (isHovered ? "red" : "#c9c9c9")};
+  fill: ${({ theme }) => theme["gray-200"]};
+  stroke: ${({ isHovered, theme }) =>
+    isHovered ? theme.red : theme["gray-400"]};
   z-index: ${({ isHovered }) => (isHovered ? "2" : "1")};
   stroke-width: 2;
 `;
