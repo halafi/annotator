@@ -28,10 +28,19 @@ const Container = styled.textarea`
   }
 `;
 
+const DeleteButton = styled.span`
+  position: absolute;
+  top: ${({ top }) => top}px;
+  left: ${({ left }) => left}px;
+  z-index: 1;
+  font-size: 8px;
+  cursor: pointer;
+`;
+
 // limitiation: needs reload won't work on resize
 const { innerWidth, innerHeight } = window;
 
-const Tooltip = ({ annotation, onChange }) => {
+const Tooltip = ({ annotation, onChange, onMouseLeave, onDelete }) => {
   const [x, y, text] = annotation;
 
   const nearBottomScreenEnd = y - innerHeight + 75;
@@ -39,19 +48,31 @@ const Tooltip = ({ annotation, onChange }) => {
 
   const upperHalfOfScreen = y < innerHeight / 2;
   return (
-    <Container
-      top={nearBottomScreenEnd > 0 ? y - 55 : y}
-      left={
-        nearRightScreenEnd > 0
-          ? x - TOOLTIP_WIDTH - ANNOTATION_WIDTH - 15
-          : x + ANNOTATION_WIDTH + 10
-      }
-      upperHalfOfScreen={upperHalfOfScreen}
-      rows="2"
-      cols="25"
-      value={text}
-      onChange={(e) => onChange(e.target.value)}
-    />
+    <>
+      <DeleteButton
+        role="img"
+        aria-label="close"
+        top={y + 3}
+        left={x + 5}
+        onClick={onDelete}
+      >
+        ❌
+      </DeleteButton>
+      <Container
+        onMouseLeave={onMouseLeave}
+        top={nearBottomScreenEnd > 0 ? y - 55 : y}
+        left={
+          nearRightScreenEnd > 0
+            ? x - TOOLTIP_WIDTH - ANNOTATION_WIDTH - 15
+            : x + ANNOTATION_WIDTH + 10
+        }
+        upperHalfOfScreen={upperHalfOfScreen}
+        rows="2"
+        cols="25"
+        value={text}
+        onChange={(e) => onChange(e.target.value)}
+      />
+    </>
   );
 };
 

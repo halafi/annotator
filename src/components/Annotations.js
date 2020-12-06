@@ -2,7 +2,11 @@ import React, { useState, useReducer } from "react";
 import styled from "styled-components";
 import Tooltip from "./Tooltip";
 import { ANNOTATION_WIDTH, ANNOTATION_HEIGHT } from "../consts/Theme";
-import reducer, { setAnnotations, setHoveredIndex } from "../services/reducer";
+import reducer, {
+  setAnnotations,
+  setHoveredIndex,
+  removeAnnotation,
+} from "../services/reducer";
 
 const Container = styled.svg`
   width: 100vw;
@@ -45,6 +49,8 @@ const Annotations = () => {
               )
             );
           }}
+          onMouseLeave={() => dispatch(setHoveredIndex(-1))}
+          onDelete={() => dispatch(removeAnnotation(hoveredIndex))}
         />
       )}
       <Container
@@ -58,7 +64,6 @@ const Annotations = () => {
             <g
               key={`${i}-${x}-${y}`}
               onMouseEnter={() => dispatch(setHoveredIndex(i))}
-              // onMouseLeave={() => dispatch(setHoveredIndex(-1))}
             >
               <AnnotationRect
                 x={x}
