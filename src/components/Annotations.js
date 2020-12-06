@@ -1,6 +1,7 @@
 import React, { useReducer, useEffect } from "react";
 import styled from "styled-components";
 import * as d3 from "d3";
+import { Delaunay } from "d3-delaunay";
 import Tooltip from "./Tooltip";
 import { ANNOTATION_WIDTH, ANNOTATION_HEIGHT } from "../consts/Theme";
 import reducer, {
@@ -48,6 +49,9 @@ const Annotations = () => {
     }
   };
 
+  const delaunay = Delaunay.from(annotations.map((x) => [x[0], x[1]]));
+  const voronoi = delaunay.voronoi([0, 0, innerWidth, innerHeight]);
+
   useEffect(() => {
     if (hoveredIndex >= 0 && annotations[hoveredIndex]) {
       d3.selectAll("rect")
@@ -90,17 +94,23 @@ const Annotations = () => {
         />
       )}
       <Container
+        viewBox={`0 0 ${innerWidth} ${innerHeight}`}
         onClick={({ pageX: x, pageY: y }) =>
           addAnnotation(x - ANNOTATION_WIDTH / 2, y - ANNOTATION_HEIGHT / 2)
         }
+        onMouseMove={(ev) => {
+          // hover needs to be on container so hover select is done based on the shapes
+          const index = delaunay.find(ev.pageX, ev.pageY); // returns index or NaN
+          if (!Number.isNaN(index) && index >= 0) {
+            dispatch(setHoveredIndex(index));
+          }
+        }}
       >
+        <path d={voronoi.render()} stroke="red" fill="blue" />
         {annotations.map((annotation, i) => {
-          const [x, y, text] = annotation;
+          const [x, y] = annotation;
           return (
-            <g
-              key={`${i}-${x}-${y}`}
-              onMouseEnter={() => dispatch(setHoveredIndex(i))}
-            >
+            <g key={`${i}-${x}-${y}`}>
               <AnnotationRect
                 x={x}
                 y={y}
